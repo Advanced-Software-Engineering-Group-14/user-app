@@ -78,12 +78,12 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
             const info = {
                 email: values.email,
             }
-            console.log(info)
+            // console.log(info)
 
             try {
                 const result = await SEND_VERIFICATION_CODE(info)
 
-                console.log(result)
+                console.log("result: ",result)
                 if (result?._id) {
                     await SecureStore.setItemAsync("forgot-store", JSON.stringify({
                         tab: "verify-code",
@@ -103,7 +103,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                 }
 
             } catch (error) {
-                console.log(error)
+                console.log("function error",error)
                 Alert.alert("Something went wrong")
             }
             return
@@ -323,7 +323,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
 
                       {/* RESET PASSWORD FORM */}
                       {
-                        forgotStore?.tab === "verify-code" && (
+                        forgotStore?.tab === "reset-password" && (
                             <View style={styles.root}>
                                 <FormProvider {...forms.resetPassword}>
                                     <Controller

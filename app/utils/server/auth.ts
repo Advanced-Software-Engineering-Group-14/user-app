@@ -46,11 +46,13 @@ export const LOGIN_USER = async(info: LoginUserInput) => {
 
 export const RESET_PASSWORD = async (info: ResetPasswordInput) => {
     try {
-        const response:  ApiResponse<HomeownerRes> = await Axios({
-            method: "POST",
-            url: `/auth/homeowner/reset-password`,
-            data: info
-        })
+        // const response:  ApiResponse<HomeownerRes> = await Axios({
+        //     method: "POST",
+        //     url: `/auth/homeowner/reset-password`,
+        //     data: info
+        // })
+
+        const response:any = await axios.post(`https://wastify-server.onrender.com/api/auth/homeowner/reset-password`, info)
 
         if (response.status === 200) {
             return response.data.data
@@ -70,9 +72,9 @@ export const SEND_VERIFICATION_CODE = async (info: SendCodeInput) => {
         //     data: info
         // })
 
-        const response:any = axios.post(`https://wastify-server.onrender.com/api/auth/homeowner/send-code`, info)
+        const response:any = await axios.post(`https://wastify-server.onrender.com/api/auth/homeowner/send-code`, info)
 
-        console.log(response)
+        console.log("response", response)
 
         if (response) {
             return response?.data?.data
@@ -80,7 +82,7 @@ export const SEND_VERIFICATION_CODE = async (info: SendCodeInput) => {
             throw new Error("oops")
         } 
     } catch (error) {
-        console.error(error)
+        // console.error(error)
 
         throw error
     }
@@ -88,11 +90,13 @@ export const SEND_VERIFICATION_CODE = async (info: SendCodeInput) => {
 
 export const VERIFY_CODE = async (info: VerifyCodeInput) => {
     try {
-        const response:  ApiResponse<HomeownerRes> = await Axios({
-            method: "POST",
-            url: `/auth/homeowner/verify-code`,
-            data: info
-        })
+        // const response:  ApiResponse<HomeownerRes> = await Axios({
+        //     method: "POST",
+        //     url: `/auth/homeowner/verify-code`,
+        //     data: info
+        // })
+
+        const response:any = await axios.post(`https://wastify-server.onrender.com/api/auth/homeowner/verify-code`, info)
 
         if (response.status === 200) {
             return response.data.data
