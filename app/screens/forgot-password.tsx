@@ -83,7 +83,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
             try {
                 const result = await SEND_VERIFICATION_CODE(info)
 
-                console.log("result: ",result)
+                console.log("result: ", result)
                 if (result?._id) {
                     await SecureStore.setItemAsync("forgot-store", JSON.stringify({
                         tab: "verify-code",
@@ -103,7 +103,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                 }
 
             } catch (error) {
-                console.log("function error",error)
+                console.log("function error", error)
                 Alert.alert("Something went wrong")
             }
             return
@@ -246,7 +246,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                                         }}
                                     />
                                     <View style={styles.spacing} />
-                                   
+
                                     <View style={styles.spacing} />
                                     <View style={styles.linkWrapper}>
                                         <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
@@ -296,7 +296,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                                         }}
                                     />
                                     <View style={styles.spacing} />
-                                   
+
                                     <View style={styles.spacing} />
                                     <View style={styles.linkWrapper}>
                                         <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
@@ -321,8 +321,8 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                         )
                     }
 
-                      {/* RESET PASSWORD FORM */}
-                      {
+                    {/* RESET PASSWORD FORM */}
+                    {
                         forgotStore?.tab === "reset-password" && (
                             <View style={styles.root}>
                                 <FormProvider {...forms.resetPassword}>
@@ -335,6 +335,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                                         }) => {
                                             return (
                                                 <TextInput
+                                                    secureTextEntry
                                                     label="New Password"
                                                     onBlur={onBlur}
                                                     value={value}
@@ -354,6 +355,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                                         }) => {
                                             return (
                                                 <TextInput
+                                                    secureTextEntry
                                                     label="Confirm New Password"
                                                     onBlur={onBlur}
                                                     value={value}
