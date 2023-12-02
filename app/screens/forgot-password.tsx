@@ -21,6 +21,7 @@ import {
 } from 'react-hook-form';
 import { RESET_PASSWORD, SEND_VERIFICATION_CODE, VERIFY_CODE } from '../utils/server/auth';
 import { TextInput } from '../components/hierarchy/input/text-input';
+import Loader from '../components/core/loading';
 
 const schemas = {
     sendCode: z.object({
@@ -200,6 +201,10 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
     }, []);
 
     console.log(forgotStore)
+
+    if (forms.resetPassword.formState.isLoading || forms.resetPassword.formState.isSubmitting || forms.sendCode.formState.isLoading || forms.sendCode.formState.isSubmitting || forms.verifyCode.formState.isLoading || forms.verifyCode.formState.isSubmitting) {
+        return <Loader />
+    }
 
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>

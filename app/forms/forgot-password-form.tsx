@@ -21,6 +21,8 @@ import { useAuth } from '../context/auth-context';
 import { LoginFormSchema, loginFormSchema } from './schema';
 import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
+import Loader from '../components/core/loading';
+
 
 export default function LoginForm({ navigation }: { navigation: any }) {
     const { onLogin } = useAuth()
@@ -46,6 +48,8 @@ export default function LoginForm({ navigation }: { navigation: any }) {
         console.log(JSON.stringify(errors));
         // Alert.alert('Warning', getReadableValidationErrorMessage(errors));
     };
+
+   
 
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>

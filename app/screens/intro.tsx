@@ -19,6 +19,8 @@ export default function IntroScreen({ navigation }: { navigation: any }) {
                     />
                     <Button
                         full
+                        // disabled
+                        action={() => alert("This feature is not available yet!")}
                         variant="outline"
                         label="Sign Up"
                     />

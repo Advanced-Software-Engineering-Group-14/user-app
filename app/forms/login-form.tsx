@@ -14,13 +14,15 @@ import {
     StyleSheet,
     TouchableOpacity,
     View,
-    Text
+    Text,
+    ActivityIndicator
 } from 'react-native';
 import { TextInput } from '../components/hierarchy/input/text-input';
 import { useAuth } from '../context/auth-context';
 import { LoginFormSchema, loginFormSchema } from './schema';
 import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
+import Loader from '../components/core/loading';
 
 export default function LoginForm({ navigation }: { navigation: any }) {
     const { onLogin } = useAuth()
@@ -47,9 +49,18 @@ export default function LoginForm({ navigation }: { navigation: any }) {
         // Alert.alert('Warning', getReadableValidationErrorMessage(errors));
     };
 
+    if (methods.formState.isLoading || methods.formState.isSubmitting) {
+        return <Loader />
+    }
+
+
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
+
             <ScrollView>
+
+                {/* <Loader loading={methods.formState.isLoading || methods.formState.isSubmitting} /> */}
+
                 <View style={styles.root}>
                     <FormProvider {...methods}>
                         <Controller
@@ -100,7 +111,7 @@ export default function LoginForm({ navigation }: { navigation: any }) {
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
                                 <Text style={styles.link}>
-                                   Forgot Password?
+                                    Forgot Password?
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
     },
     link: {
         fontSize: 12,
-    }, 
+    },
     linkWrapper: {
         width: "100%",
         paddingHorizontal: 4,
