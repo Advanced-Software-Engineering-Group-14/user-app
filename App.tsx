@@ -5,13 +5,13 @@ import NavigationLayout from './app/layout/navigation-layout';
 
 export default function App() {
   return (
-    <ClientProvider>
+    // <ClientProvider>
       <AuthProvider>
           <StatusBar style="dark" />
           <NavigationLayout>
 
           </NavigationLayout>
       </AuthProvider>
-    </ClientProvider>
+    // </ClientProvider>
   );
 }
