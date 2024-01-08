@@ -1,17 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "../context/auth-context";
-import HomeScreen from "../screens/home";
-import LoginScreen from "../screens/login"
 import Button from "../components/ui/button";
-import IntroScreen from "../screens/intro";
-import ForgotPasswordScreen from "../screens/forgot-password";
+import { ForgotPasswordScreen, HomeScreen, IntroScreen, LoginScreen, RegisterScreen, CompleteProfileScreen } from "../screens"
 
 
 const Stack = createNativeStackNavigator()
 
 export default function NavigationLayout() {
-    const { authState, onLogout } = useAuth()
+    const { authState, onLogout, } = useAuth()
 
     return (
         <NavigationContainer>
@@ -23,7 +20,7 @@ export default function NavigationLayout() {
 
                         <Stack.Group>
                             {
-                                !authState?.user?.meta?.isVerified ? (
+                                !!authState?.user?.residence ? (
 
                                     <Stack.Group>
                                         <Stack.Screen name="Home" options={{
@@ -32,7 +29,7 @@ export default function NavigationLayout() {
                                     </Stack.Group>
                                 ) : (
                                     <Stack.Group>
-                                        <Stack.Screen name="Verify" component={LoginScreen} ></Stack.Screen>
+                                        <Stack.Screen name="CompleteProfile" component={CompleteProfileScreen} ></Stack.Screen>
 
                                     </Stack.Group>
                                 )
@@ -43,8 +40,11 @@ export default function NavigationLayout() {
                         <Stack.Group>
 
                             <Stack.Screen name="Intro" component={IntroScreen} ></Stack.Screen>
+                            <Stack.Screen name="Register" component={RegisterScreen} ></Stack.Screen>
                             <Stack.Screen name="Login" component={LoginScreen} ></Stack.Screen>
                             <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} ></Stack.Screen>
+                            <Stack.Screen name="CompleteProfile" component={CompleteProfileScreen} ></Stack.Screen>
+
                         </Stack.Group>
 
                     )

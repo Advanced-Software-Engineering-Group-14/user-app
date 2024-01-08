@@ -22,6 +22,7 @@ import { LoginFormSchema, loginFormSchema } from './schema';
 import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
 import Loader from '../components/core/loading';
+import { getReadableValidationErrorMessage } from '../utils/functions';
 
 
 export default function LoginForm({ navigation }: { navigation: any }) {
@@ -36,7 +37,7 @@ export default function LoginForm({ navigation }: { navigation: any }) {
         const result = await onLogin!(email, password)
         if (result && result.error) {
             console.log(result)
-            Alert.alert("Something went wrong", result.msg)
+            Alert.alert("Something went wrong", result.message)
         }
     };
 
@@ -46,7 +47,7 @@ export default function LoginForm({ navigation }: { navigation: any }) {
     ) => {
         e?.preventDefault()
         console.log(JSON.stringify(errors));
-        // Alert.alert('Warning', getReadableValidationErrorMessage(errors));
+        Alert.alert('Warning', getReadableValidationErrorMessage(errors));
     };
 
    

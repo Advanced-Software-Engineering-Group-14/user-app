@@ -1,4 +1,5 @@
 import { FieldErrors, FieldValues } from 'react-hook-form';
+import _ from "lodash"
 
 export const getReadableValidationErrorMessage = <
   T extends FieldValues
@@ -7,9 +8,9 @@ export const getReadableValidationErrorMessage = <
 ) => {
   let validationMessage = '';
   for (const [fieldName, value] of Object.entries(errors)) {
-    validationMessage += `${fieldName}: ${getErrorMessageFromObjectRecursively(
+    validationMessage += `${_.capitalize(fieldName)}: ${getErrorMessageFromObjectRecursively(
       value
-    )}\n\n`;
+    )}\n`;
   }
 
   return validationMessage.trim();

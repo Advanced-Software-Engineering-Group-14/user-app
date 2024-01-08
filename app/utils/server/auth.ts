@@ -39,7 +39,7 @@ export const LOGIN_USER = async(info: LoginUserInput) => {
             throw new Error("oops")
         } 
     } catch (error) {
-        console.log(error)
+        console.log("login: ",error)
         throw error
     }
 }

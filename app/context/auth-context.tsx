@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import * as SecureStore from "expo-secure-store"
 import config from "../config";
 import { LOGIN_USER, SEND_VERIFICATION_CODE } from "../utils/server/auth";
@@ -93,16 +93,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             const result = await REGISTER_USER(info)
 
-            await SEND_VERIFICATION_CODE({
-                email: info.email
-            })
 
             await SecureStore.setItemAsync("user", JSON.stringify(result))
+
+
+            setAuthState({
+                token: result.token,
+                authenticated: true,
+                user: result
+            })
 
             return result
 
         } catch (error) {
-            return { error: true, msg: (error as any).response?.data?.msg }
+            return { error: true, message: (error as any).response?.data?.message }
         }
     }
 
@@ -128,9 +132,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             await SecureStore.setItemAsync("user", JSON.stringify(result))
 
             return result
-        } catch (error) {
-            console.log(error)
-            return { error: true, msg: (error as any).response?.data?.msg }
+        } catch (error: any) {
+            console.log(error?.response?.data)
+            return { error: true, message: (error as any).response?.data?.message }
         }
     }
 

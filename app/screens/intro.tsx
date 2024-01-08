@@ -20,7 +20,7 @@ export default function IntroScreen({ navigation }: { navigation: any }) {
                     <Button
                         full
                         // disabled
-                        action={() => alert("This feature is not available yet!")}
+                        action={() => navigation.navigate('Register')}
                         variant="outline"
                         label="Sign Up"
                     />

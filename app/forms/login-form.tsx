@@ -23,6 +23,7 @@ import { LoginFormSchema, loginFormSchema } from './schema';
 import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
 import Loader from '../components/core/loading';
+import { getReadableValidationErrorMessage } from '../utils/functions';
 
 export default function LoginForm({ navigation }: { navigation: any }) {
     const { onLogin } = useAuth()
@@ -35,18 +36,15 @@ export default function LoginForm({ navigation }: { navigation: any }) {
         // console.log(JSON.stringify(data));
         const result = await onLogin!(email, password)
         if (result && result.error) {
-            console.log(result)
-            Alert.alert("Something went wrong", result.msg)
+            console.log(result?.data)
+            Alert.alert("Oops!", result.message)
         }
     };
 
-    const onError: SubmitErrorHandler<LoginFormSchema> = (
-        errors,
-        e
-    ) => {
+    const onError: SubmitErrorHandler<LoginFormSchema> = (errors, e) => {
         e?.preventDefault()
         console.log(JSON.stringify(errors));
-        // Alert.alert('Warning', getReadableValidationErrorMessage(errors));
+        Alert.alert('Warning', getReadableValidationErrorMessage(errors));
     };
 
     if (methods.formState.isLoading || methods.formState.isSubmitting) {
@@ -104,7 +102,7 @@ export default function LoginForm({ navigation }: { navigation: any }) {
                         />
                         <View style={styles.spacing} />
                         <View style={styles.linkWrapper}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                                 <Text style={styles.link}>
                                     Don't have an account? Register
                                 </Text>
