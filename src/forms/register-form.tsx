@@ -27,8 +27,9 @@ import Loader from '../components/core/loading';
 import { getReadableValidationErrorMessage } from '../utils/functions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SelectInput } from '../components/hierarchy/input/select-input';
+import { router } from 'expo-router';
 
-export default function RegisterForm({ navigation }: { navigation: any }) {
+export default function RegisterForm() {
     const { onRegister } = useAuth()
     const methods = useForm<RegisterFormSchema>({
         resolver: zodResolver(registerFormSchema),
@@ -44,7 +45,7 @@ export default function RegisterForm({ navigation }: { navigation: any }) {
             return
         }
 
-        navigation.navigate('CompleteProfile')
+        router.replace("/home")
 
     };
 
@@ -198,7 +199,7 @@ export default function RegisterForm({ navigation }: { navigation: any }) {
                         <View style={styles.spacing} />
 
                         <View style={styles.linkWrapper}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                            <TouchableOpacity onPress={() => router.replace("/login")}>
                                 <Text style={styles.link}>
                                     Have have an account? Login
                                 </Text>

@@ -1,31 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useAuth } from '../context/auth-context'
-import Button from '../components/ui/button'
+import { useAuth } from '../src/context/auth-context'
+import Button from '../src/components/ui/button'
 import {  WrenchScrewdriverIcon, TrashIcon } from "react-native-heroicons/outline";
-import { COLORS } from '../styles/colors';
-import Heading from '../components/hierarchy/text/heading';
-import Body from '../components/hierarchy/text/body';
-import Subheading from '../components/hierarchy/text/subheading';
-import * as SecureStore from "expo-secure-store"
-import { createContext, useContext, useEffect, useState } from "react";
-import { HomeownerRes } from '../types';
+import { COLORS } from '../src/styles/colors';
+import Heading from '../src/components/hierarchy/text/heading';
+import Body from '../src/components/hierarchy/text/body';
+import Subheading from '../src/components/hierarchy/text/subheading';
 
-const CompleteProfile =  () => {
+const HomeScreen = () => {
   const { authState, onLogout } = useAuth()
-  const [user, setUser] = useState<HomeownerRes | null>(null)
-
-  useEffect(() => {
-    const loadUser = async () => {
-      const localUser = await SecureStore.getItemAsync("user")
-
-      setUser(localUser && JSON.parse(localUser))
-
-  }
-
-  loadUser()
-  }, []);
-
   return (
     <View>
       <View style={styles.container}>
@@ -35,7 +19,7 @@ const CompleteProfile =  () => {
         </View>
         <Heading text="Wastify" />
         <Subheading text={`Hello ${authState?.user?.othernames}!`} />
-        <Body text="Your account is pending verification " />
+        <Body text="Our team is still developing this page" />
         <Button full action={onLogout} label='Logout' />
 
       </View>
@@ -65,4 +49,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default CompleteProfile
+export default HomeScreen

@@ -1,19 +1,19 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import Heading from "../components/hierarchy/text/heading";
+import Heading from "../src/components/hierarchy/text/heading";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Button from "../components/ui/button";
-import { COLORS } from "../styles/colors";
+import Button from "../src/components/ui/button";
+import { COLORS } from "../src/styles/colors";
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
-import Body from "../components/hierarchy/text/body";
-import RegisterForm from "../forms/register-form";
+import Body from "../src/components/hierarchy/text/body";
+import RegisterForm from "../src/forms/register-form";
+import { router } from 'expo-router';
 
-
-export default function RegisterScreen({ navigation }: { navigation: any }) {
+export default function RegisterScreen() {
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
             <View style={styles.container}>
                 <View style={styles.backButtonWrapper}>
-                <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
+                <TouchableOpacity onPress={() => router.back()}>
                     <ChevronLeftIcon size={32} color={COLORS.black} />
                 </TouchableOpacity>
             </View>
@@ -24,7 +24,7 @@ export default function RegisterScreen({ navigation }: { navigation: any }) {
                         <Heading text="Register an account" />
                         <Body text="Create an account to get started with Wastify. " />
                     </View>
-                    <RegisterForm navigation={navigation} />
+                    <RegisterForm  />
                 </View>
             </View>
 

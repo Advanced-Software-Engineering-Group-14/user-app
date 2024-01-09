@@ -24,8 +24,9 @@ import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
 import Loader from '../components/core/loading';
 import { getReadableValidationErrorMessage } from '../utils/functions';
+import { Link, router } from 'expo-router';
 
-export default function LoginForm({ navigation }: { navigation: any }) {
+export default function LoginForm() {
     const { onLogin } = useAuth()
     const methods = useForm<LoginFormSchema>({
         resolver: zodResolver(loginFormSchema),
@@ -39,6 +40,7 @@ export default function LoginForm({ navigation }: { navigation: any }) {
             console.log(result?.data)
             Alert.alert("Oops!", result.message)
         }
+        // navigation.navigate("Home")
     };
 
     const onError: SubmitErrorHandler<LoginFormSchema> = (errors, e) => {
@@ -102,16 +104,21 @@ export default function LoginForm({ navigation }: { navigation: any }) {
                         />
                         <View style={styles.spacing} />
                         <View style={styles.linkWrapper}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                                <Text style={styles.link}>
-                                    Don't have an account? Register
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                                <Text style={styles.link}>
+                            <Link asChild href="/register">
+                                <TouchableOpacity>
+                                    <Text style={styles.link}>
+                                        Don't have an account? Register
+                                    </Text>
+                                </TouchableOpacity>
+                            </Link>
+                            <Link asChild href="/forgot-password">
+                                <TouchableOpacity>
+                                    <Text style={styles.link}>
                                     Forgot Password?
-                                </Text>
-                            </TouchableOpacity>
+                                    </Text>
+                                </TouchableOpacity>
+                            </Link>
+                           
                         </View>
                         <View style={styles.spacing} />
 

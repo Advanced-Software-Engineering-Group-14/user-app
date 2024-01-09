@@ -1,6 +1,0 @@
-export { default as HomeScreen} from "./home"
-export { default as ForgotPasswordScreen} from "./forgot-password"
-export { default as IntroScreen} from "./intro"
-export { default as LoginScreen} from "./login"
-export { default as RegisterScreen} from "./register"
-export { default as CompleteProfileScreen} from "./complete-profile"

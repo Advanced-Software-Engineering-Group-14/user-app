@@ -36,7 +36,7 @@ export const useAuth = () => {
 
 type AuthTypeArg = {
     token: string | null
-    authenticated: boolean | null
+    authenticated: boolean 
     user: HomeownerRes | null
 }
 
@@ -49,7 +49,7 @@ export type ForgotStoreType = {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [authState, setAuthState] = useState<AuthTypeArg>({
         token: null,
-        authenticated: null,
+        authenticated: false,
         user: null
     })
 
@@ -95,6 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 
             await SecureStore.setItemAsync("user", JSON.stringify(result))
+            await SecureStore.setItemAsync(config.auth.tokenKey, result?.token || "")
 
 
             setAuthState({
@@ -102,6 +103,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 authenticated: true,
                 user: result
             })
+
+            axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
 
             return result
 
@@ -149,7 +152,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Update auth state
         setAuthState({
             token: null,
-            authenticated: null,
+            authenticated: false,
             user: null
         })
     }

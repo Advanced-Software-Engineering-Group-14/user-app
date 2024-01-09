@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
-import Heading from "../components/hierarchy/text/heading";
+import Heading from "../src/components/hierarchy/text/heading";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Button from "../components/ui/button";
-import { COLORS } from "../styles/colors";
+import Button from "../src/components/ui/button";
+import { COLORS } from "../src/styles/colors";
 
 
-export default function IntroScreen({ navigation }: { navigation: any }) {
+export default function IntroScreen() {
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
             <View style={styles.container}>
@@ -15,12 +15,11 @@ export default function IntroScreen({ navigation }: { navigation: any }) {
                         variant="secondary"
                         full
                         label="Login"
-                        action={() => navigation.navigate('Login')}
+                        link="/login"
                     />
                     <Button
                         full
-                        // disabled
-                        action={() => navigation.navigate('Register')}
+                        link="/register"
                         variant="outline"
                         label="Sign Up"
                     />

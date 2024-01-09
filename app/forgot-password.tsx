@@ -1,15 +1,14 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import LoginForm from '../forms/login-form'
-import Button from '../components/ui/button'
+import LoginForm from '../src/forms/login-form'
+import Button from '../src/components/ui/button'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS } from '../styles/colors';
-import Heading from '../components/hierarchy/text/heading';
-import Subheading from '../components/hierarchy/text/subheading';
-import Body from '../components/hierarchy/text/body';
+import { COLORS } from '../src/styles/colors';
+import Heading from '../src/components/hierarchy/text/heading';
+import Body from '../src/components/hierarchy/text/body';
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import * as SecureStore from "expo-secure-store"
-import { ForgotStoreType } from '../types';
+import { ForgotStoreType } from '../src/types';
 import z from "zod"
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -19,10 +18,10 @@ import {
     SubmitHandler,
     useForm,
 } from 'react-hook-form';
-import { RESET_PASSWORD, SEND_VERIFICATION_CODE, VERIFY_CODE } from '../utils/server/auth';
-import { TextInput } from '../components/hierarchy/input/text-input';
-import Loader from '../components/core/loading';
-
+import { RESET_PASSWORD, SEND_VERIFICATION_CODE, VERIFY_CODE } from '../src/utils/server/auth';
+import { TextInput } from '../src/components/hierarchy/input/text-input';
+import Loader from '../src/components/core/loading';
+import { router, Link } from 'expo-router';
 const schemas = {
     sendCode: z.object({
         email: z.string().email({
@@ -49,7 +48,7 @@ const schemas = {
 
 
 
-const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
+const ForgotPasswordScreen = () => {
     const [forgotStore, setForgotStore] = useState<ForgotStoreType>({ username: "", tab: "send-code", token: "" });
 
     const forms = {
@@ -158,7 +157,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                         token: ""
                     }))
 
-                    return navigation.navigate("Login")
+                    return router.replace("/login")
 
 
                 } else {
@@ -209,7 +208,7 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
             <View style={styles.backButtonWrapper}>
-                <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
+                <TouchableOpacity onPress={() => router.back()}>
                     <ChevronLeftIcon size={32} color={COLORS.black} />
                 </TouchableOpacity>
             </View>
@@ -254,12 +253,12 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
 
                                     <View style={styles.spacing} />
                                     <View style={styles.linkWrapper}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
+                                        <TouchableOpacity onPress={() => router.replace("/register")}>
                                             <Text style={styles.link}>
                                                 Don't have an account? Register
                                             </Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                        <TouchableOpacity onPress={() => router.replace("/login")}>
                                             <Text style={styles.link}>
                                                 Remember Password?
                                             </Text>
@@ -304,12 +303,12 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
 
                                     <View style={styles.spacing} />
                                     <View style={styles.linkWrapper}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
+                                    <TouchableOpacity onPress={() => router.replace("/register")}>
                                             <Text style={styles.link}>
                                                 Don't have an account? Register
                                             </Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                        <TouchableOpacity onPress={() => router.replace("/login")}>
                                             <Text style={styles.link}>
                                                 Remember Password?
                                             </Text>
@@ -372,12 +371,12 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
                                     />
                                     <View style={styles.spacing} />
                                     <View style={styles.linkWrapper}>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
+                                    <TouchableOpacity onPress={() => router.replace("/register")}>
                                             <Text style={styles.link}>
                                                 Don't have an account? Register
                                             </Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                        <TouchableOpacity onPress={() => router.replace("/login")}>
                                             <Text style={styles.link}>
                                                 Remember Password?
                                             </Text>

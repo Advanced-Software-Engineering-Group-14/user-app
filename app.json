@@ -4,6 +4,7 @@
     "slug": "wastify-client",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "your-app-scheme",
     "owner": "g21_419",
     "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
@@ -39,6 +40,9 @@
     },
     "updates": {
       "url": "https://u.expo.dev/f9727fb0-f274-4dec-8f1f-3a4a67235378"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
