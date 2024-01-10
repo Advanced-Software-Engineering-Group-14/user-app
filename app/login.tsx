@@ -5,19 +5,16 @@ import Button from '../src/components/ui/button'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '../src/styles/colors';
 import Heading from '../src/components/hierarchy/text/heading';
-import Subheading from '../src/components/hierarchy/text/subheading';
 import Body from '../src/components/hierarchy/text/body';
 import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { router } from 'expo-router';
+import BackButton from '../src/components/ui/back-button';
 
 const Login = () => {
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
-            <View style={styles.backButtonWrapper}>
-                <TouchableOpacity onPress={() => router.back()}>
-                        <ChevronLeftIcon size={32} color={COLORS.black} />
-                </TouchableOpacity>
-            </View>
+            <BackButton />
+         
 
             <View style={styles.container}>
                 <View>

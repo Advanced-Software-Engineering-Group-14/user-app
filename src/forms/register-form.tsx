@@ -28,9 +28,10 @@ import { getReadableValidationErrorMessage } from '../utils/functions';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { SelectInput } from '../components/hierarchy/input/select-input';
 import { router } from 'expo-router';
+import { useSession } from '../components/providers/session-provider';
 
 export default function RegisterForm() {
-    const { onRegister } = useAuth()
+    const { register } = useSession()
     const methods = useForm<RegisterFormSchema>({
         resolver: zodResolver(registerFormSchema),
         mode: 'onBlur',
@@ -38,15 +39,14 @@ export default function RegisterForm() {
 
     const onSubmit: SubmitHandler<RegisterFormSchema> = async (values) => {
         // console.log(JSON.stringify(data));
-        const result = await onRegister!(values)
-        if (result && result.error) {
-            console.log(result?.data)
-            Alert.alert("Oops!", result.message)
+        try {
+            const result = await register!(values)
+            router.replace("/")
+            return
+        } catch (error: any) {
+            Alert.alert("Oops!", error.message)
             return
         }
-
-        router.replace("/home")
-
     };
 
     const onError: SubmitErrorHandler<RegisterFormSchema> = (errors, e) => {
@@ -172,7 +172,7 @@ export default function RegisterForm() {
                                         selectedValue={value}
                                         onValueChange={onChange}
                                         error={!value ? "Gender is required" : ""}
-                                        
+
                                     />
                                 );
                             }}

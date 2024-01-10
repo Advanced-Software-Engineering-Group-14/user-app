@@ -19,35 +19,50 @@ import {
 } from 'react-native';
 import { TextInput } from '../components/hierarchy/input/text-input';
 import { useAuth } from '../context/auth-context';
-import { LoginFormSchema, loginFormSchema } from './schema';
+import { CompleteProfileFormSchema, completeProfileFormSchema } from './schema';
 import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
 import Loader from '../components/core/loading';
 import { getReadableValidationErrorMessage } from '../utils/functions';
-import { Link, router } from 'expo-router';
-import { useSession } from '../components/providers/session-provider';
+import { Link, Redirect, router } from 'expo-router';
+import { PromiseError, useSession } from '../components/providers/session-provider';
+import Body from '../components/hierarchy/text/body';
+import { SEND_VERIFICATION_CODE } from '../utils/server/homeowner';
+import { SelectInput } from '../components/hierarchy/input/select-input';
 
-export default function LoginForm() {
-    const { signIn } = useSession()
-    const methods = useForm<LoginFormSchema>({
-        resolver: zodResolver(loginFormSchema),
+
+export default function CompleteProfileForm() {
+    const { verify, user, signOut, completeProfile } = useSession()
+
+    if (!user) {
+        return <Redirect href="/login" />
+    }
+    const methods = useForm<CompleteProfileFormSchema>({
+        resolver: zodResolver(completeProfileFormSchema),
         mode: 'onBlur',
+        defaultValues: {
+            residence: "",
+            idType: "COUNTRY",
+            idNo: ""
+        }
     });
 
-    const onSubmit: SubmitHandler<LoginFormSchema> = async ({ email, password }) => {
+ 
+
+    const onSubmit: SubmitHandler<CompleteProfileFormSchema> = async (values) => {
         // console.log(JSON.stringify(data));
+
         try {
-            const result = await signIn!(email, password)
+            const result = await completeProfile!(values)
             router.replace("/")
-            return
         } catch (error: any) {
             Alert.alert("Oops!", error.message)
             return
         }
-       
+  
     };
 
-    const onError: SubmitErrorHandler<LoginFormSchema> = (errors, e) => {
+    const onError: SubmitErrorHandler<CompleteProfileFormSchema> = (errors, e) => {
         e?.preventDefault()
         console.log(JSON.stringify(errors));
         Alert.alert('Warning', getReadableValidationErrorMessage(errors));
@@ -69,17 +84,17 @@ export default function LoginForm() {
                     <FormProvider {...methods}>
                         <Controller
                             control={methods.control}
-                            name="email"
+                            name="residence"
                             render={({
                                 field: { onChange, onBlur, value },
                                 fieldState: { error },
                             }) => {
                                 return (
                                     <TextInput
-                                        label="Email"
+                                        label="Residence"
                                         onBlur={onBlur}
                                         value={value}
-                                        keyboardType='email-address'
+                                        keyboardType='ascii-capable'
                                         onChangeText={onChange}
                                         errorMessage={error?.message}
                                     />
@@ -87,19 +102,46 @@ export default function LoginForm() {
                             }}
                         />
                         <View style={styles.spacing} />
+
                         <Controller
                             control={methods.control}
-                            name="password"
+                            name="idType"
+                            render={({
+                                field: { onChange, onBlur, value },
+                                fieldState: { error },
+                            }) => {
+                                return (
+                                    <SelectInput
+                                        // label="Gender"
+                                        placeholder="Select an ID type..."
+                                        options={[
+                                            { name: 'Voters ID', id: 'VOTER' },
+                                            { name: 'Ghana Card', id: 'COUNTRY' },
+                                            { name: 'Drivers License', id: 'DRIVER' },
+                                        ]}
+                                        optionLabel={'name'}
+                                        optionValue={'id'}
+                                        selectedValue={value}
+                                        onValueChange={onChange}
+                                        error={!value ? "ID Type is required" : ""}
+
+                                    />
+                                );
+                            }}
+                        />
+                        <Controller
+                            control={methods.control}
+                            name="idNo"
                             render={({
                                 field: { onChange, onBlur, value },
                                 fieldState: { error },
                             }) => {
                                 return (
                                     <TextInput
-                                        secureTextEntry
-                                        label="Password"
+                                        label="ID Number"
                                         onBlur={onBlur}
                                         value={value}
+                                        keyboardType='ascii-capable'
                                         onChangeText={onChange}
                                         errorMessage={error?.message}
                                     />
@@ -107,30 +149,21 @@ export default function LoginForm() {
                             }}
                         />
                         <View style={styles.spacing} />
-                        <View style={styles.linkWrapper}>
-                            <Link asChild href="/register">
-                                <TouchableOpacity>
-                                    <Text style={styles.link}>
-                                        Don't have an account? Register
-                                    </Text>
-                                </TouchableOpacity>
-                            </Link>
-                            <Link asChild href="/forgot-password">
-                                <TouchableOpacity>
-                                    <Text style={styles.link}>
-                                        Forgot Password?
-                                    </Text>
-                                </TouchableOpacity>
-                            </Link>
 
-                        </View>
-                        <View style={styles.spacing} />
+
 
 
                         <Button disabled={methods.formState.isLoading || methods.formState.isSubmitting} action={methods.handleSubmit(onSubmit, onError)} full label="Continue" />
 
 
+                        <View style={styles.spacing} />
+                        <Body text="or" />
+
+                        <View style={styles.spacing} />
+
+
                     </FormProvider>
+                    <Button variant='outline' full type='button' action={signOut} label='Logout' />
                 </View>
             </ScrollView>
         </SafeAreaView>

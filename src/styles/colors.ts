@@ -7,5 +7,7 @@ export const COLORS = {
     cardBg: "#F5F9F4",
     primary: "#4CAF50",
     secondary: "#A0F66B",
-    destructive: "#E72222"
+    destructive: "#E72222",
+    grey: "#6C6767",
+    // grey: "#999898",
 }

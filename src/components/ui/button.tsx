@@ -9,7 +9,7 @@ type Props = {
     disabled?: boolean
     variant?: "default" | "outline" | "secondary" | "destructive" | "primary"
     full?: boolean
-    type?: string
+    type?: "submit" | "button"
     link?: string
 }
 

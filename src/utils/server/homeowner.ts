@@ -2,6 +2,7 @@ import axios from "axios";
 import { ApiResponse, HomeownerRes } from "../../types";
 import Axios from "../axios"
 import config from "../../config";
+import { CompleteProfileFormSchema } from "../../forms/schema";
 
 type RegisterInput = {
     email: string
@@ -13,7 +14,7 @@ type RegisterInput = {
 }
 
 
-type VerifyCodeInput = {
+export type VerifyCodeInput = {
     email: string
     code: string
 }
@@ -42,11 +43,13 @@ export const REGISTER_USER = async (info: RegisterInput) => {
 
 export const VERIFY_HOMEOWNER_EMAIL = async (info: VerifyCodeInput) => {
     try {
-        const response:  ApiResponse<HomeownerRes> = await Axios({
-            method: "POST",
-            url: `/homeowner/verify`,
-            data: info
-        })
+        // const response:  ApiResponse<HomeownerRes> = await Axios({
+        //     method: "POST",
+        //     url: `/homeowner/verify`,
+        //     data: info
+        // })
+
+        const response: any = await axios.post(`${config.api.base}homeowner/verify`, info)
 
         if (response.status === 200) {
             return response.data.data
@@ -55,5 +58,48 @@ export const VERIFY_HOMEOWNER_EMAIL = async (info: VerifyCodeInput) => {
         } 
     } catch (error) {
         throw error
+    }
+}
+export const SEND_VERIFICATION_CODE = async (info: {email: string}) => {
+    try {
+        // const response:  ApiResponse<HomeownerRes> = await Axios({
+        //     method: "POST",
+        //     url: `/homeowner/verify`,
+        //     data: info
+        // })
+
+        const response: any = await axios.post(`${config.api.base}homeowner/send-code`, info)
+        console.log(response)
+        if (response?.status === 200) {
+            return response.data.data
+        } else {
+            throw new Error("oops")
+        } 
+    } catch (error) {
+        console.log(error)
+        throw error
+
+    }
+}
+
+export const COMPLETE_PROFILE = async (info: CompleteProfileFormSchema) => {
+    try {
+        // const response:  ApiResponse<HomeownerRes> = await Axios({
+        //     method: "POST",
+        //     url: `/homeowner/verify`,
+        //     data: info
+        // })
+
+        const response: any = await axios.patch(`${config.api.base}homeowner/complete-profile`, info)
+        console.log(response)
+        if (response?.status === 200) {
+            return response.data.data
+        } else {
+            throw new Error("oops")
+        } 
+    } catch (error) {
+        console.log(error)
+        throw error
+
     }
 }

@@ -7,28 +7,26 @@ import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import Body from "../src/components/hierarchy/text/body";
 import RegisterForm from "../src/forms/register-form";
 import { router } from 'expo-router';
+import BackButton from "../src/components/ui/back-button";
 
 export default function RegisterScreen() {
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
             <View style={styles.container}>
-                <View style={styles.backButtonWrapper}>
-                <TouchableOpacity onPress={() => router.back()}>
-                    <ChevronLeftIcon size={32} color={COLORS.black} />
-                </TouchableOpacity>
-            </View>
+                <BackButton />
 
-            <View style={styles.container}>
-                <View>
+
+                <View style={styles.container}>
                     <View>
-                        <Heading text="Register an account" />
-                        <Body text="Create an account to get started with Wastify. " />
+                        <View>
+                            <Heading text="Register an account" />
+                            <Body text="Create an account to get started with Wastify. " />
+                        </View>
+                        <RegisterForm />
                     </View>
-                    <RegisterForm  />
                 </View>
-            </View>
 
-        </View>
+            </View>
         </SafeAreaView >
     )
 }

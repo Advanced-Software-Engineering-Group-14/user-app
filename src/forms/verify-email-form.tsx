@@ -14,62 +14,98 @@ import {
     StyleSheet,
     TouchableOpacity,
     View,
-    Text
+    Text,
+    ActivityIndicator
 } from 'react-native';
 import { TextInput } from '../components/hierarchy/input/text-input';
 import { useAuth } from '../context/auth-context';
-import { LoginFormSchema, loginFormSchema } from './schema';
+import { VerifyEmailFormSchema, verifyEmailFormSchema } from './schema';
 import { COLORS } from '../styles/colors';
 import Button from '../components/ui/button';
 import Loader from '../components/core/loading';
 import { getReadableValidationErrorMessage } from '../utils/functions';
+import { Link, Redirect, router } from 'expo-router';
+import { useSession } from '../components/providers/session-provider';
+import Body from '../components/hierarchy/text/body';
+import { SEND_VERIFICATION_CODE } from '../utils/server/homeowner';
 
+export default function VerifyEmailForm() {
+    const { verify, user, signOut } = useSession()
 
-export default function LoginForm({ navigation }: { navigation: any }) {
-    const { onLogin } = useAuth()
-    const methods = useForm<LoginFormSchema>({
-        resolver: zodResolver(loginFormSchema),
+    if (!user) {
+        return <Redirect href="/login" />
+    }
+    const methods = useForm<VerifyEmailFormSchema>({
+        resolver: zodResolver(verifyEmailFormSchema),
         mode: 'onBlur',
+        defaultValues: {
+            email: user?.email || "",
+            code: ""
+        }
     });
 
-    const onSubmit: SubmitHandler<LoginFormSchema> = async ({ email, password }) => {
+    const resendCode = async () => {
+        const info = {
+            email: user?.email || ""
+        }
+
+        console.log(user)
+
+        try {
+            const result = await SEND_VERIFICATION_CODE(info)
+            return Alert.alert("Response!", "A new code has been sent")
+        } catch (error: any) {
+            console.log("result", error)
+            Alert.alert("Response!", error?.response.data?.message)
+
+        }
+
+    }
+
+    const onSubmit: SubmitHandler<VerifyEmailFormSchema> = async (values) => {
         // console.log(JSON.stringify(data));
-        const result = await onLogin!(email, password)
+        const result = await verify!(values)
         if (result && result.error) {
             console.log(result)
-            Alert.alert("Something went wrong", result.message)
+            Alert.alert("Oops!", result.message)
+            return
         }
+        router.replace("/")
     };
 
-    const onError: SubmitErrorHandler<LoginFormSchema> = (
-        errors,
-        e
-    ) => {
+    const onError: SubmitErrorHandler<VerifyEmailFormSchema> = (errors, e) => {
         e?.preventDefault()
         console.log(JSON.stringify(errors));
         Alert.alert('Warning', getReadableValidationErrorMessage(errors));
     };
 
-   
+    if (methods.formState.isLoading || methods.formState.isSubmitting) {
+        return <Loader />
+    }
+
 
     return (
         <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
+
             <ScrollView>
+
+                {/* <Loader loading={methods.formState.isLoading || methods.formState.isSubmitting} /> */}
+
                 <View style={styles.root}>
                     <FormProvider {...methods}>
                         <Controller
                             control={methods.control}
-                            name="email"
+                            name="code"
                             render={({
                                 field: { onChange, onBlur, value },
                                 fieldState: { error },
                             }) => {
                                 return (
                                     <TextInput
-                                        label="Email"
+                                        label="Code"
                                         onBlur={onBlur}
                                         value={value}
-                                        keyboardType='email-address'
+                                        keyboardType='number-pad'
                                         onChangeText={onChange}
                                         errorMessage={error?.message}
                                     />
@@ -77,45 +113,26 @@ export default function LoginForm({ navigation }: { navigation: any }) {
                             }}
                         />
                         <View style={styles.spacing} />
-                        <Controller
-                            control={methods.control}
-                            name="password"
-                            render={({
-                                field: { onChange, onBlur, value },
-                                fieldState: { error },
-                            }) => {
-                                return (
-                                    <TextInput
-                                        secureTextEntry
-                                        label="Password"
-                                        onBlur={onBlur}
-                                        value={value}
-                                        onChangeText={onChange}
-                                        errorMessage={error?.message}
-                                    />
-                                );
-                            }}
-                        />
+                        <TouchableOpacity onPress={resendCode}>
+                            <Text style={styles.link}>
+                                Resend Code
+                            </Text>
+                        </TouchableOpacity>
                         <View style={styles.spacing} />
-                        <View style={styles.linkWrapper}>
-                            <TouchableOpacity onPress={() => navigation.navigate('Intro')}>
-                                <Text style={styles.link}>
-                                    Don't have an account? Register
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                                <Text style={styles.link}>
-                                   Forgot Password?
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.spacing} />
+
 
 
                         <Button disabled={methods.formState.isLoading || methods.formState.isSubmitting} action={methods.handleSubmit(onSubmit, onError)} full label="Continue" />
 
 
+                        <View style={styles.spacing} />
+                        <Body text="or" />
+
+                        <View style={styles.spacing} />
+
+
                     </FormProvider>
+                    <Button variant='outline' full type='button' action={signOut} label='Logout' />
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -146,7 +163,7 @@ const styles = StyleSheet.create({
     },
     link: {
         fontSize: 12,
-    }, 
+    },
     linkWrapper: {
         width: "100%",
         paddingHorizontal: 4,
