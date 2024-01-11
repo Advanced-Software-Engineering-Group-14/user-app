@@ -10,6 +10,8 @@ import Subheading from '../../../../../src/components/hierarchy/text/subheading'
 import { useSession } from '../../../../../src/components/providers/session-provider';
 import Container from '../../../../../src/components/ui/container';
 import { Stack, useNavigation } from 'expo-router';
+import NavigationLayout from '../../../../../src/layout/navigation-layout';
+import BottomNav from '../../../../../src/components/navigation/bottom-nav';
 
 const HomeScreen = () => {
   const { signOut, session } = useSession()
@@ -22,20 +24,16 @@ const HomeScreen = () => {
   }, [navigation]);
 
   return (
-    <View>
+    <NavigationLayout>
       
       <Container >
-        <View>
-          <TrashIcon size={82} color={COLORS.black} />
-
-        </View>
-        <Heading text="Wastify" />
-        <Subheading text={`Hello ${user?.othernames}!`} />
-        <Body text="Our team is still developing this page" />
+       
         <Button full action={signOut} label='Logout' />
 
       </Container>
-    </View>
+    
+
+    </NavigationLayout>
   )
 }
 
