@@ -8,6 +8,7 @@ import axios from 'axios';
 import { REGISTER_USER, VerifyCodeInput, SEND_VERIFICATION_CODE, VERIFY_HOMEOWNER_EMAIL, COMPLETE_PROFILE } from '../../utils/server/homeowner';
 import { CompleteProfileFormSchema } from '../../forms/schema';
 
+
 export type ForgotStoreType = {
     username?: string
     tab: "send-code" | "verify-code" | "reset-password"
@@ -28,15 +29,15 @@ export type PromiseError = {
     message: string
 }
 
-type HomeownerResError = HomeownerRes & PromiseError
+export type HomeownerResError = HomeownerRes & PromiseError
 
 interface AuthProps {
-    register: (info: RegisterInput) => Promise<HomeownerRes | null>
+    register: (info: RegisterInput) => Promise<HomeownerRes | PromiseError | null>
     signIn: (email: string, password: string) => Promise<HomeownerRes | PromiseError | null>;
     signOut: () => Promise<void | null>;
-    verify: (info: VerifyCodeInput) => Promise<HomeownerResError | PromiseError  | null>;
-    completeProfile: (info: CompleteProfileFormSchema) => Promise<HomeownerRes| PromiseError  | null>
-    session?: string | null;
+    verify: (info: VerifyCodeInput) => Promise<HomeownerResError | PromiseError | null>;
+    completeProfile: (info: CompleteProfileFormSchema) => Promise<HomeownerRes | PromiseError | null>
+    // session?: string | null;
     forgotStore?: string | null
     isLoading: boolean;
     user: HomeownerRes | null
@@ -48,7 +49,7 @@ const AuthContext = React.createContext<AuthProps>({
     register: async () => null,
     verify: async () => null,
     completeProfile: async () => null,
-    session: null,
+    // session: null,
     isLoading: false,
     forgotStore: null,
     user: null,
@@ -67,19 +68,35 @@ export function useSession() {
 }
 
 export function SessionProvider(props: React.PropsWithChildren) {
-    const [[isLoading, session], setSession] = useStorageState('session');
-    const [[forgotStoreLoading, forgotStore], setForgotStore] = useStorageState("forgot-store")
+    const [[isLoading, session], setSession] = useStorageState('session',);
+    const [forgotStore, setForgotStore] = useState<ForgotStoreType>({ username: "", tab: "send-code", token: "" })
     const [user, setUser] = useState<HomeownerRes | null>(null)
 
     React.useEffect(() => {
         const loadForgotStore = async () => {
             const storeString = await SecureStore.getItemAsync("forgot-store")
 
-            if (!storeString) {
-                await SecureStore.setItemAsync("forgot-store", JSON.stringify({ username: "", tab: "send-code", token: "" }))
+            if (storeString) {
+                const store: ForgotStoreType = JSON.parse(storeString)
+
+                setForgotStore(store)
+            } else {
+                await SecureStore.setItemAsync("forgot-store", JSON.stringify(forgotStore))
             }
-            setForgotStore(storeString)
         }
+
+        const loadToken = async () => {
+            const localUser = await SecureStore.getItemAsync("user")
+            const parsedUser: HomeownerRes | null = JSON.parse(localUser ? localUser : "")
+
+            if (parsedUser) {
+                axios.defaults.headers.common["Authorization"] = `Bearer ${parsedUser.token}`
+                setUser(parsedUser)
+            }
+            return
+        }
+
+        loadToken()
         loadForgotStore()
     }, [])
 
@@ -91,7 +108,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             await SecureStore.setItemAsync("user", JSON.stringify(result))
 
             setUser(result)
-            setSession(JSON.stringify(result))
+            // setSession(JSON.stringify(result))
 
             axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
 
@@ -110,14 +127,14 @@ export function SessionProvider(props: React.PropsWithChildren) {
             await SecureStore.setItemAsync("user", JSON.stringify(result))
 
             setUser(result)
-            setSession(JSON.stringify(result))
+            // setSession(JSON.stringify(result))
 
             axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
 
             return result
 
         } catch (error) {
-            return { error: true, message: (error as any).response?.data?.message as string}
+            return { error: true, message: (error as any).response?.data?.message as string }
         }
     }
 
@@ -129,13 +146,13 @@ export function SessionProvider(props: React.PropsWithChildren) {
             await SecureStore.setItemAsync("user", JSON.stringify(result))
 
             setUser(result)
-            setSession(JSON.stringify(result))
+            // setSession(JSON.stringify(result))
 
             axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
-            
+
             return result
         } catch (error) {
-            return { error: true, message: (error as any).response?.data?.message as string}
+            return { error: true, message: (error as any).response?.data?.message as string }
         }
     }
 
@@ -150,7 +167,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             console.log("auth-context", result)
             setUser(result)
 
-            setSession(JSON.stringify(result))
+            // setSession(JSON.stringify(result))
 
 
             axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
@@ -181,7 +198,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
     const value: AuthProps = {
         isLoading,
-        session,
+        // session,
         user,
         register: onRegister,
         signIn: onLogin,

@@ -1,34 +1,36 @@
 import { View, StyleSheet, Text } from "react-native";
 import { COLORS } from "../../styles/colors";
 import Body from "../hierarchy/text/body";
-import { usePathname } from 'expo-router';
+import { usePathname, Link } from 'expo-router';
 import { NAVLINKS } from "./navlinks";
 
 export default function BottomNav() {
     const pathname = usePathname();
 
     function isActive(path: string) {
-        console.log(pathname)
+        // console.log(pathname)
         return pathname === path
     }
 
-    
+
 
     return (
         <View style={styles.container} >
             {
-                NAVLINKS.map((item) => (
-                    <View style={styles.linkContainer}>
-                        <item.icon color={isActive(item.path) ? COLORS.black : `${COLORS.grey}80`} size={32} />
-                        <Text style={{
-                            ...styles.linkText,
-                            color: isActive(item.path) ? COLORS.black : `${COLORS.grey}80`
-                        }} >
-                            {item.title}
-                        </Text>
-                    </View>
+                NAVLINKS.map((item, index) => (
+                    <Link key={index} href={item.path}>
+                        <View  style={styles.linkContainer}>
+                            <item.icon color={isActive(item.path) ? COLORS.black : `${COLORS.grey}80`} size={32} />
+                            <Text style={{
+                                ...styles.linkText,
+                                color: isActive(item.path) ? COLORS.black : `${COLORS.grey}80`
+                            }} >
+                                {item.title}
+                            </Text>
+                        </View>
+                    </Link>
                 ))
-           }
+            }
         </View>
     )
 }

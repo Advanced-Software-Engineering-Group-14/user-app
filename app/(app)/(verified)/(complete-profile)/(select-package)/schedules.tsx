@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, {useEffect} from 'react'
+import React from 'react'
 import { useAuth } from '../../../../../src/context/auth-context'
 import Button from '../../../../../src/components/ui/button'
 import { WrenchScrewdriverIcon, TrashIcon } from "react-native-heroicons/outline";
@@ -12,15 +12,14 @@ import Container from '../../../../../src/components/ui/container';
 import { Stack, useNavigation } from 'expo-router';
 import NavigationLayout from '../../../../../src/layout/navigation-layout';
 import BottomNav from '../../../../../src/components/navigation/bottom-nav';
-import storage from '../../../../../src/config/storage';
 
-const HomeScreen = () => {
-  const { signOut,  } = useSession()
-  
+const SchedulesScreen = () => {
+  const { signOut,} = useSession()
+  // const user = JSON.parse(session || "")
 
   const navigation = useNavigation();
 
-  useEffect(() => {
+  React.useEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
@@ -60,4 +59,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default HomeScreen
+export default SchedulesScreen

@@ -7,7 +7,7 @@ import { Text } from 'react-native';
 import { useState, useEffect } from 'react';
 
 export default function AppLayout() {
-    const { session, isLoading, user } = useSession();
+    const {  isLoading, user } = useSession();
 
     useEffect(() => {
         // const parsedUser = JSON.parse(session || "")
@@ -23,7 +23,7 @@ export default function AppLayout() {
     }
 
     // check if user is logged in
-    if (!!!session) {
+    if (!!!user) {
         return <Redirect href="/login" />;
     }
 

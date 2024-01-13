@@ -4,7 +4,7 @@ import { useSession } from '../../../../../src/components/providers/session-prov
 import { Text } from 'react-native';
 
 export default function AppLayout() {
-    const { session, isLoading, user } = useSession();
+    const {  isLoading, user } = useSession();
 
     // const user = JSON.parse(session || "")
     // You can keep the splash screen open, or render a loading screen like we do here.

@@ -3,6 +3,7 @@ import { ApiResponse, HomeownerRes } from "../../types";
 import Axios from "../axios"
 import config from "../../config";
 import { CompleteProfileFormSchema } from "../../forms/schema";
+import { HomeownerResError } from "../../components/providers/session-provider";
 
 type RegisterInput = {
     email: string
@@ -27,7 +28,7 @@ export const REGISTER_USER = async (info: RegisterInput) => {
         //     data: info
         // })
 
-        const response: any = await axios.post(`${config.api.base}homeowner`, info)
+        const response: ApiResponse<HomeownerResError> = await axios.post(`${config.api.base}homeowner`, info)
         
         console.log("register-status", response)
 
@@ -49,7 +50,7 @@ export const VERIFY_HOMEOWNER_EMAIL = async (info: VerifyCodeInput) => {
         //     data: info
         // })
 
-        const response: any = await axios.post(`${config.api.base}homeowner/verify`, info)
+        const response: ApiResponse<HomeownerResError> = await axios.post(`${config.api.base}homeowner/verify`, info)
 
         if (response.status === 200) {
             return response.data.data
@@ -68,7 +69,7 @@ export const SEND_VERIFICATION_CODE = async (info: {email: string}) => {
         //     data: info
         // })
 
-        const response: any = await axios.post(`${config.api.base}homeowner/send-code`, info)
+        const response: ApiResponse<HomeownerResError> = await axios.post(`${config.api.base}homeowner/send-code`, info)
         console.log(response)
         if (response?.status === 200) {
             return response.data.data
@@ -90,7 +91,7 @@ export const COMPLETE_PROFILE = async (info: CompleteProfileFormSchema) => {
         //     data: info
         // })
 
-        const response: any = await axios.patch(`${config.api.base}homeowner/complete-profile`, info)
+        const response: ApiResponse<HomeownerResError> = await axios.patch(`${config.api.base}homeowner/complete-profile`, info)
         console.log(response)
         if (response?.status === 200) {
             return response.data.data
