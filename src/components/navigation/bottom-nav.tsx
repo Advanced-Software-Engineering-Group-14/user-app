@@ -20,10 +20,10 @@ export default function BottomNav() {
                 NAVLINKS.map((item, index) => (
                     <Link key={index} href={item.path}>
                         <View  style={styles.linkContainer}>
-                            <item.icon color={isActive(item.path) ? COLORS.black : `${COLORS.grey}80`} size={32} />
+                            <item.icon color={isActive(item.path) ? COLORS.primary : `${COLORS.grey}80`} size={32} />
                             <Text style={{
                                 ...styles.linkText,
-                                color: isActive(item.path) ? COLORS.black : `${COLORS.grey}80`
+                                color: isActive(item.path) ? COLORS.primary : `${COLORS.grey}80`
                             }} >
                                 {item.title}
                             </Text>

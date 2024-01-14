@@ -1,6 +1,6 @@
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../styles/colors";
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 
 
 type Props = {
@@ -17,11 +17,11 @@ export default function Button({ action, label, disabled, variant, full, link }:
 
     const buttonStyles = styles[variant || "default"]
 
-    return !!!link ? (
+    return  (
         <TouchableOpacity style={{
             ...buttonStyles,
             width: full ? "100%" : "auto",
-        }} onPress={action} disabled={disabled || false} >
+        }} onPress={!!!link ? action : ()=> router.replace(link)} disabled={disabled || false} >
             <Text style={{
                 color: (!variant ? COLORS.white : (variant === "default" || variant === "destructive" || variant === "primary" ? COLORS.white : COLORS.black)),
                 textAlign: "center"
@@ -30,22 +30,7 @@ export default function Button({ action, label, disabled, variant, full, link }:
                 {label}
             </Text>
         </TouchableOpacity>
-    ) : (
-        <Link asChild href={link}>
-            <TouchableOpacity style={{
-                ...buttonStyles,
-                width: full ? "100%" : "auto",
-            }} onPress={action} disabled={disabled || false} >
-                <Text style={{
-                    color: (!variant ? COLORS.white : (variant === "default" || variant === "destructive" || variant === "primary" ? COLORS.white : COLORS.black)),
-                    textAlign: "center"
-
-                }}>
-                    {label}
-                </Text>
-            </TouchableOpacity>
-        </Link>
-    )
+    ) 
 }
 
 

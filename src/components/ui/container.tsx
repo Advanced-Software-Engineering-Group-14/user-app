@@ -1,4 +1,5 @@
 import {  StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { COLORS } from '../../styles/colors'
 
 type Props = {
     children: React.ReactNode
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
         height: "100%",
         justifyContent: "center",
         gap: 8,
+        backgroundColor: COLORS.white
         // borderWidth: 2
     },
     isCenter: {

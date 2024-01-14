@@ -1,20 +1,20 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { useAuth } from '../../../../../src/context/auth-context'
-import Button from '../../../../../src/components/ui/button'
+import { useAuth } from '../../../../../../src/context/auth-context'
+import Button from '../../../../../../src/components/ui/button'
 import { WrenchScrewdriverIcon, TrashIcon } from "react-native-heroicons/outline";
-import { COLORS } from '../../../../../src/styles/colors';
-import Heading from '../../../../../src/components/hierarchy/text/heading';
-import Body from '../../../../../src/components/hierarchy/text/body';
-import Subheading from '../../../../../src/components/hierarchy/text/subheading';
-import { useSession } from '../../../../../src/components/providers/session-provider';
-import Container from '../../../../../src/components/ui/container';
+import { COLORS } from '../../../../../../src/styles/colors';
+import Heading from '../../../../../../src/components/hierarchy/text/heading';
+import Body from '../../../../../../src/components/hierarchy/text/body';
+import Subheading from '../../../../../../src/components/hierarchy/text/subheading';
+import { useSession } from '../../../../../../src/components/providers/session-provider';
+import Container from '../../../../../../src/components/ui/container';
 import { Stack, useNavigation } from 'expo-router';
-import NavigationLayout from '../../../../../src/layout/navigation-layout';
-import BottomNav from '../../../../../src/components/navigation/bottom-nav';
+import NavigationLayout from '../../../../../../src/layout/navigation-layout';
+import BottomNav from '../../../../../../src/components/navigation/bottom-nav';
 
-const ActivitiesScreen = () => {
-  const { signOut, } = useSession()
+const NewScheduleScreen = () => {
+  const { signOut,} = useSession()
   // const user = JSON.parse(session || "")
 
   const navigation = useNavigation();
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default ActivitiesScreen
+export default NewScheduleScreen

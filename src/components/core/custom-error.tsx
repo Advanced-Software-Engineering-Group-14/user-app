@@ -15,7 +15,7 @@ type Props = {
 }
 
 export default function CustomError({ error }: Props) {
-    const { signOut, session } = useSession()
+    const { signOut} = useSession()
 
     return (
         <SafeArea>

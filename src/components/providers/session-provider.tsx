@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useStorageState } from '../../hooks/use-storage-state';
-import * as SecureStore from 'expo-secure-store';
 import { HomeownerRes } from '../../types';
 import { LOGIN_USER } from '../../utils/server/auth';
 import config from '../../config';
 import axios from 'axios';
 import { REGISTER_USER, VerifyCodeInput, SEND_VERIFICATION_CODE, VERIFY_HOMEOWNER_EMAIL, COMPLETE_PROFILE } from '../../utils/server/homeowner';
 import { CompleteProfileFormSchema } from '../../forms/schema';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type ForgotStoreType = {
     username?: string
@@ -74,19 +73,19 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
     React.useEffect(() => {
         const loadForgotStore = async () => {
-            const storeString = await SecureStore.getItemAsync("forgot-store")
+            const storeString = await AsyncStorage.getItem("forgot-store")
 
             if (storeString) {
                 const store: ForgotStoreType = JSON.parse(storeString)
 
                 setForgotStore(store)
             } else {
-                await SecureStore.setItemAsync("forgot-store", JSON.stringify(forgotStore))
+                await AsyncStorage.setItem("forgot-store", JSON.stringify(forgotStore))
             }
         }
 
         const loadToken = async () => {
-            const localUser = await SecureStore.getItemAsync("user")
+            const localUser = await AsyncStorage.getItem("user")
             const parsedUser: HomeownerRes | null = JSON.parse(localUser ? localUser : "")
 
             if (parsedUser) {
@@ -98,14 +97,14 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
         loadToken()
         loadForgotStore()
-    }, [])
+    }, [user])
 
     const onRegister = async (info: RegisterInput) => {
         try {
             const result = await REGISTER_USER(info)
 
 
-            await SecureStore.setItemAsync("user", JSON.stringify(result))
+            await AsyncStorage.setItem("user", JSON.stringify(result))
 
             setUser(result)
             // setSession(JSON.stringify(result))
@@ -124,7 +123,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             const result = await VERIFY_HOMEOWNER_EMAIL(info)
 
 
-            await SecureStore.setItemAsync("user", JSON.stringify(result))
+            await AsyncStorage.setItem("user", JSON.stringify(result))
 
             setUser(result)
             // setSession(JSON.stringify(result))
@@ -143,7 +142,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
             const result = await COMPLETE_PROFILE(info)
 
 
-            await SecureStore.setItemAsync("user", JSON.stringify(result))
+            await AsyncStorage.setItem("user", JSON.stringify(result))
 
             setUser(result)
             // setSession(JSON.stringify(result))
@@ -172,8 +171,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
             axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
 
-            await SecureStore.setItemAsync(config.auth.tokenKey, result?.token || "")
-            await SecureStore.setItemAsync("user", JSON.stringify(result))
+            await AsyncStorage.setItem(config.auth.tokenKey, result?.token || "")
+            await AsyncStorage.setItem("user", JSON.stringify(result))
 
             return result
         } catch (error: any) {
@@ -185,7 +184,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
 
     const onLogout = async () => {
         // Delete token from storage
-        await SecureStore.deleteItemAsync("user")
+        await AsyncStorage.removeItem("user")
 
         // Update the HTTP axios header
         axios.defaults.headers.common["Authorization"] = ""

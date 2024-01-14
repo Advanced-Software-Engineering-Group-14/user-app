@@ -1,5 +1,4 @@
-import { HomeIcon, CalendarDaysIcon, ClipboardDocumentListIcon, UserIcon } from "react-native-heroicons/solid";
-
+import { HomeIcon, CalendarDaysIcon, ClipboardDocumentListIcon, UserIcon, TrashIcon,  } from "react-native-heroicons/solid";
 export const NAVLINKS = [
     {
         path: "/",
@@ -12,9 +11,9 @@ export const NAVLINKS = [
         icon: CalendarDaysIcon,
     },
     {
-        path: "/activities",
-        title: "Activities",
-        icon: ClipboardDocumentListIcon,
+        path: "/bins",
+        title: "Bins",
+        icon: TrashIcon,
     },
     {
         path: "/account",

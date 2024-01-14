@@ -1,4 +1,9 @@
 import { AxiosResponse } from "axios"
+import { SvgProps, NumberProp } from "react-native-svg"
+
+export interface IconProps extends SvgProps {
+    size?: NumberProp;
+}
 
 export type MongoResponse = {
     _id: string

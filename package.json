@@ -23,6 +23,7 @@
     "@types/lodash": "^4.14.202",
     "@types/redux-logger": "^3.0.12",
     "axios": "^1.6.2",
+    "dayjs": "^1.11.10",
     "expo": "~49.0.15",
     "expo-constants": "~14.4.2",
     "expo-dev-client": "~2.4.12",

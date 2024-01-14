@@ -8,7 +8,7 @@ export default function BackButton() {
     
     const canGoBack = router.canGoBack()
     function goBack() {
-        console.log(canGoBack)
+        // console.log(canGoBack)
         if (router.canGoBack()) {
             return router.back()
         } else {
@@ -26,6 +26,6 @@ export default function BackButton() {
 
 const styles = StyleSheet.create({
     backButtonWrapper: {
-        padding: 10,
+        // padding: 10,
     }
 })
