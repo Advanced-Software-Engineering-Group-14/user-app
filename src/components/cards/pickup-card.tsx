@@ -6,6 +6,10 @@ import _ from "lodash";
 import dayjs from "dayjs"
 import PickupStatusBadge from "../badges/pickup-status-badge";
 import { COLORS } from "../../styles/colors";
+import ModalClose from "../ui/modal-close";
+import { GridContainer } from "../grid/grid-container";
+import { GridRow } from "../grid/grid-row";
+import { GridCol } from "../grid/grid-col";
 
 type Props = {
     data: PickupRes
@@ -15,27 +19,43 @@ export default function PickupCard({ data }: Props) {
     const { _id, bins, createdAt, date, driver, homeowner, payment, status, updatedAt } = data
     const [modalVisible, setModalVisible] = useState(false);
 
+    function closeModal() {
+        setModalVisible(false)
+    }
+
+    function openModal() {
+        setModalVisible(true)
+    }
+
     return (
-        <View style={styles.centeredView}>
+        <View style={{}}>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
+                    // Alert.alert('Modal has been closed.');
+                    closeModal()
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>{_id}</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </Pressable>
+                        <ModalClose action={closeModal} />
+                        <Text style={styles.modalTitle}>
+                            Pickup for {_.toString(bins.length)} {bins.length === 1 ? "bin" : "bins"}
+                        </Text>
+
+                        <GridContainer cols={2}>
+                            <GridRow gap={0}>
+                                <GridCol col={1}>
+                                    <ViewItem label="status" value={status} />
+                                </GridCol>
+                            </GridRow>
+                        </GridContainer>
+
                     </View>
                 </View>
             </Modal>
+            {/* Card */}
             <Pressable
                 style={styles.container}
                 onPress={() => setModalVisible(true)}
@@ -43,10 +63,10 @@ export default function PickupCard({ data }: Props) {
                 {/* <ViewItem label="status" value={status} /> */}
                 <View>
 
-                <PickupStatusBadge status={status} />
+                    <PickupStatusBadge status={status} />
                 </View>
                 <Text style={styles.pickup}>
-                   Pickup for {_.toString(bins.length)} {bins.length === 1 ? "bin" : "bins"} 
+                    Pickup for {_.toString(bins.length)} {bins.length === 1 ? "bin" : "bins"}
                 </Text>
                 <Text style={styles.textStyle}>
                     {dayjs(date).format("MMM D, YYYY")} · {driver?.othernames || "No driver assigned"} {driver?.surname || ""}
@@ -61,33 +81,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 12,
+        // marginTop: 8,
+        backgroundColor: `${COLORS.black}50`,
+        padding: 16,
     },
     modalView: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
+        backgroundColor: COLORS.white,
+        borderRadius: 8,
+        padding: 12,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.25,
+        shadowOpacity: 0.2,
         shadowRadius: 4,
         elevation: 5,
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-        backgroundColor: '#2196F3',
+        position: "relative",
+        width: "100%"
     },
     textStyle: {
         fontWeight: "400",
@@ -98,11 +109,10 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     modalText: {
-        marginBottom: 15,
-        textAlign: 'center',
+        // textAlign: 'center',
     },
     container: {
-        marginBottom: 0,
+        marginBottom: 4,
         borderWidth: 1,
         width: "100%",
         padding: 12,
@@ -112,4 +122,8 @@ const styles = StyleSheet.create({
         // flexDirection: "row",
         // alignItems: "center",
     },
+    modalTitle: {
+        fontWeight: "600",
+        fontSize: 20
+    }
 });

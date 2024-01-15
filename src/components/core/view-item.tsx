@@ -20,7 +20,7 @@ export default function ViewItem({ label, value }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-
+        flex:1
     },
     label: {
         letterSpacing: -1,

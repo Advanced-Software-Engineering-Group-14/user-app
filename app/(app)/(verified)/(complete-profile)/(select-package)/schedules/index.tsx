@@ -52,6 +52,7 @@ const SchedulesScreen = () => {
           Your Pickups
         </Text>
         <Button label="Create New Pickup" link="/schedules/new" />
+        <Body text="Tap on a pickup to see more information." />
         {/* <ScrollView> */}
           {
             isPending ? <Loader /> : <Container noPadding>
