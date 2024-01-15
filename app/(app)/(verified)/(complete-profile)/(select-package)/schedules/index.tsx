@@ -1,19 +1,12 @@
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native'
+import { StyleSheet, Text, View,  FlatList } from 'react-native'
 import React from 'react'
-import { useAuth } from '../../../../../../src/context/auth-context'
+import { useQuery } from '@tanstack/react-query';
+import { useNavigation } from 'expo-router';
 import Button from '../../../../../../src/components/ui/button'
-import { WrenchScrewdriverIcon, TrashIcon } from "react-native-heroicons/outline";
-import { COLORS } from '../../../../../../src/styles/colors';
-import Heading from '../../../../../../src/components/hierarchy/text/heading';
 import Body from '../../../../../../src/components/hierarchy/text/body';
-import Subheading from '../../../../../../src/components/hierarchy/text/subheading';
 import { useSession } from '../../../../../../src/components/providers/session-provider';
 import Container from '../../../../../../src/components/ui/container';
-import { Stack, useNavigation } from 'expo-router';
 import NavigationLayout from '../../../../../../src/layout/navigation-layout';
-import BottomNav from '../../../../../../src/components/navigation/bottom-nav';
-import BackButton from '../../../../../../src/components/ui/back-button';
-import { useQuery } from '@tanstack/react-query';
 import { GET_USER_PICKUPS } from '../../../../../../src/utils/server/pickup';
 import Loader from '../../../../../../src/components/core/loading';
 import CustomError from '../../../../../../src/components/core/custom-error';
@@ -21,7 +14,7 @@ import CustomEmpty from '../../../../../../src/components/core/custom-empty';
 import PickupCard from '../../../../../../src/components/cards/pickup-card';
 
 const SchedulesScreen = () => {
-  const { signOut, user } = useSession()
+  const { user } = useSession()
   // const user = JSON.parse(session || "")
 
   const { isPending, isError, data, error, isSuccess } = useQuery({
@@ -49,7 +42,7 @@ const SchedulesScreen = () => {
     <NavigationLayout>
       <View style={styles.container}  >
         <Text style={styles.title}>
-          Your Pickups
+         Pickups
         </Text>
         <Button label="Create New Pickup" link="/schedules/new" />
         <Body text="Tap on a pickup to see more information." />

@@ -19,5 +19,7 @@ export function GridCol({  col, children }: Props) {
 const styles = StyleSheet.create({
     container: {
         width: "90%",
+        borderWidth: 1
+
     },
 })

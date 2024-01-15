@@ -24,3 +24,25 @@ export const GET_USER_PICKUPS = async () => {
         throw error
     }
 }
+
+export const CREATE_PICKUP = async (info: { date: Date}) => {
+    try {
+        // const response:  ApiResponse<HomeownerRes> = await Axios({
+        //     method: "POST",
+        //     url: `/homeowner`,
+        //     data: info
+        // })
+
+        const response: ApiResponse<PickupRes[]> = await axios.post(`${config.api.base}pickup/`, info)
+        
+        console.log("register-status", response)
+
+        if (response.status === 200 || response.status === 201) {
+            return response.data.data
+        } else {
+            throw new Error("oops")
+        } 
+    } catch (error) {
+        throw error
+    }
+}

@@ -20,10 +20,10 @@ export default function BottomNav() {
                 NAVLINKS.map((item, index) => (
                     <Link key={index} href={item.path}>
                         <View  style={styles.linkContainer}>
-                            <item.icon color={isActive(item.path) ? COLORS.primary : `${COLORS.grey}80`} size={32} />
+                            <item.icon color={isActive(item.path) ? COLORS.primary : `${COLORS.grey}`} size={32} />
                             <Text style={{
                                 ...styles.linkText,
-                                color: isActive(item.path) ? COLORS.primary : `${COLORS.grey}80`
+                                color: isActive(item.path) ? COLORS.primary : `${COLORS.grey}`
                             }} >
                                 {item.title}
                             </Text>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         paddingBottom: 50,
         paddingTop: 16,
         flexDirection: "row",
-        backgroundColor: `${COLORS.gray}40`,
+        backgroundColor: `#f5f5f5`,
         position: "absolute",
         bottom: 0,
         left: 0,

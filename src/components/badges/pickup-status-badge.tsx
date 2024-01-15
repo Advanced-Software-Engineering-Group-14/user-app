@@ -7,16 +7,16 @@ type Props = {
     status: PickupStatus
 }
 
-export default function PickupStatusBadge({ status }: Props) {
-    const colorsMap = {
-        "pending": "#585a5c",
-        "assigned": "#fcba03",
-        "ongoing": "#2085f7",
-        "completed": COLORS.primary,
-        "cancelled": COLORS.destructive,
-        "paid": "#b603fc",
+export const colorsMap = {
+    "pending": "#585a5c",
+    "assigned": "#fcba03",
+    "ongoing": "#2085f7",
+    "completed": COLORS.primary,
+    "cancelled": COLORS.destructive,
+    "paid": "#b603fc",
 
-    }
+}
+export default function PickupStatusBadge({ status }: Props) {
     return (
         <View style={styles.container} >
             <View style={{

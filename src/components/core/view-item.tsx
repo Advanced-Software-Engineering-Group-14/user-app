@@ -1,5 +1,6 @@
 import _ from "lodash"
 import { View, Text, StyleSheet } from "react-native"
+import { COLORS } from "../../styles/colors"
 
 type Props = {
     label: string
@@ -12,7 +13,8 @@ export default function ViewItem({ label, value }: Props) {
                 {_.toUpper(label)}
             </Text>
             <Text style={styles.value}>
-                {_.capitalize(value)}
+                {value}
+                {/* {_.capitalize(value)} */}
             </Text>
         </View>
     )
@@ -20,14 +22,17 @@ export default function ViewItem({ label, value }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        flex:1
+        flex: 1,
+        // width: "100%"
     },
     label: {
         letterSpacing: -1,
-        fontSize: 12
+        fontSize: 12,
+        color: COLORS.grey,
+        fontWeight: "500",
     },
     value: {
-        fontSize: 16
+        fontSize: 17
 
     }
 })

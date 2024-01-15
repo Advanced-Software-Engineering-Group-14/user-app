@@ -9,12 +9,12 @@ type Props = {
 export default function ModalClose({ action }: Props) {
     return (
         <Pressable style={{
-            padding: 5,
+            padding: 8,
             position: "absolute",
             right: 4,
             top: 4
         }} onPress={action}>
-            <XMarkIcon size={24} color={COLORS.black} />
+            <XMarkIcon size={28} color={COLORS.black} />
         </Pressable>
     )
 }

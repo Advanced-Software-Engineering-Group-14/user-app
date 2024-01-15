@@ -1,5 +1,6 @@
 import { FieldErrors, FieldValues } from 'react-hook-form';
 import _ from "lodash"
+import { PickupStatus } from '../types';
 
 export const getReadableValidationErrorMessage = <
   T extends FieldValues
@@ -31,3 +32,22 @@ export const getErrorMessageFromObjectRecursively = (o: any) => {
     return message;
   }
 };
+
+
+/**
+ * 
+ * @param status a current pickup status
+ * @returns a string explaning the status
+ */
+export function generatePickupStatusInfo(status: PickupStatus): string {
+  const infoMap = {
+    "pending": "Your pickup has not been processed yet",
+    "assigned": "Your pickup has been processed and assigned to a driver",
+    "ongoing": "The driver is on their way to pickup",
+    "completed": "The driver has successfully completed your request. You can pay now",
+    "cancelled": "Your pickup request was cancelled",
+    "paid": "You have completed this pickup",
+  }
+
+  return infoMap[status]
+}
