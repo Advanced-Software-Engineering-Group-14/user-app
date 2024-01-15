@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 import { useAuth } from '../../../../../src/context/auth-context'
 import Button from '../../../../../src/components/ui/button'
@@ -15,6 +15,7 @@ import BottomNav from '../../../../../src/components/navigation/bottom-nav';
 import storage from '../../../../../src/config/storage';
 import CustomEmpty from '../../../../../src/components/core/custom-empty';
 import ActionLink from '../../../../../src/components/ui/action-link';
+import MostRecentPickup from '../../../../../src/components/data-fetch/most-recent-pickup';
 
 const HomeScreen = () => {
   const { signOut, user } = useSession()
@@ -35,14 +36,21 @@ const HomeScreen = () => {
         </Text>
         {/* <Body text="Hello" /> */}
         <View style={styles.gridContainer}>
-
           <View style={styles.row}>
             <ActionLink href="/bins" icon={TrashIcon} text="Manage Bin" />
             <ActionLink color={COLORS.primary} href="/schedules/new" icon={ClockIcon} text="Schedule" />
           </View>
+          <View style={{
+            flex: 3
+          }}>
+
+            <View style={styles.section}>
+              <Subheading text="Most Recent Pickup" />
+              <MostRecentPickup />
+            </View>
+            
+          </View>
         </View>
-        {/* <CustomEmpty /> */}
-        {/* <Button full action={signOut} label='Logout' /> */}
 
       </View>
     </NavigationLayout>
@@ -73,6 +81,12 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
     width: "100%",
     // backgroundColor: "red"
+  },
+  section: {
+    marginTop: 20,
+    flex: 1,
+    gap: 8,
+    // height: "30%"
   }
 
 })
