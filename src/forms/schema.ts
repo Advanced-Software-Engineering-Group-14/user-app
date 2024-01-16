@@ -54,8 +54,27 @@ export const completeProfileFormSchema = z.object({
     idType: z.custom<IdTypes>(),
     idNo: z.string().min(3, "Minimum 3 characters"),
 })
+export const manageDetailsFormSchema = z.object({
+    othernames: z.string({
+        invalid_type_error: "Password must be a string",
+        required_error: REQUIRED_FIELD
+    }).min(3, "Minimum 3 characters"),
+    surname: z.string({
+        invalid_type_error: "Password must be a string",
+        required_error: REQUIRED_FIELD
+    }).min(3, "Minimum 3 characters"),
+    phone: z.string({
+        invalid_type_error: "Password must be a string",
+        required_error: REQUIRED_FIELD
+    }).min(3, "Minimum 3 characters"),
+    gender: z.custom<Gender>(),
+    residence: z.string().min(3, "Minimum 3 characters"),
+    idType: z.custom<IdTypes>(),
+    idNo: z.string().min(3, "Minimum 3 characters"),
+})
 
 export type LoginFormSchema = z.infer<typeof loginFormSchema>
 export type RegisterFormSchema = z.infer<typeof registerFormSchema>
 export type VerifyEmailFormSchema = z.infer<typeof verifyEmailFormSchema>
 export type CompleteProfileFormSchema = z.infer<typeof completeProfileFormSchema>
+export type ManageDetailsFormSchema = z.infer<typeof manageDetailsFormSchema>

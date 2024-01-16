@@ -13,7 +13,7 @@ export const GET_USER_PICKUPS = async () => {
 
         const response: ApiResponse<PickupRes[]> = await axios.get(`${config.api.base}pickup/user`)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
@@ -35,7 +35,7 @@ export const CREATE_PICKUP = async (info: { date: Date}) => {
 
         const response: ApiResponse<PickupRes[]> = await axios.post(`${config.api.base}pickup/`, info)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data

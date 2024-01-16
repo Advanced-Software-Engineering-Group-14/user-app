@@ -1,19 +1,11 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
-import { useAuth } from '../../../../../src/context/auth-context'
-import Button from '../../../../../src/components/ui/button'
-import { WrenchScrewdriverIcon, TrashIcon, ClockIcon } from "react-native-heroicons/outline";
+import { TrashIcon, ClockIcon } from "react-native-heroicons/outline";
 import { COLORS } from '../../../../../src/styles/colors';
-import Heading from '../../../../../src/components/hierarchy/text/heading';
-import Body from '../../../../../src/components/hierarchy/text/body';
 import Subheading from '../../../../../src/components/hierarchy/text/subheading';
 import { useSession } from '../../../../../src/components/providers/session-provider';
-import Container from '../../../../../src/components/ui/container';
-import { Stack, useNavigation } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import NavigationLayout from '../../../../../src/layout/navigation-layout';
-import BottomNav from '../../../../../src/components/navigation/bottom-nav';
-import storage from '../../../../../src/config/storage';
-import CustomEmpty from '../../../../../src/components/core/custom-empty';
 import ActionLink from '../../../../../src/components/ui/action-link';
 import MostRecentPickup from '../../../../../src/components/data-fetch/most-recent-pickup';
 
@@ -48,7 +40,7 @@ const HomeScreen = () => {
               <Subheading text="Most Recent Pickup" />
               <MostRecentPickup />
             </View>
-            
+
           </View>
         </View>
 

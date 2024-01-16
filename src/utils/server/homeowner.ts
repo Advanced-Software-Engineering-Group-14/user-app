@@ -2,7 +2,7 @@ import axios from "axios";
 import { ApiResponse, HomeownerRes } from "../../types";
 import Axios from "../axios"
 import config from "../../config";
-import { CompleteProfileFormSchema } from "../../forms/schema";
+import { CompleteProfileFormSchema, ManageDetailsFormSchema } from "../../forms/schema";
 import { HomeownerResError } from "../../components/providers/session-provider";
 
 type RegisterInput = {
@@ -30,7 +30,7 @@ export const REGISTER_USER = async (info: RegisterInput) => {
 
         const response: ApiResponse<HomeownerResError> = await axios.post(`${config.api.base}homeowner`, info)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
@@ -92,6 +92,22 @@ export const COMPLETE_PROFILE = async (info: CompleteProfileFormSchema) => {
         // })
 
         const response: ApiResponse<HomeownerResError> = await axios.patch(`${config.api.base}homeowner/complete-profile`, info)
+        console.log(response)
+        if (response?.status === 200) {
+            return response.data.data
+        } else {
+            throw new Error("oops")
+        } 
+    } catch (error) {
+        console.log(error)
+        throw error
+
+    }
+}
+
+export const MANAGE_DETAILS = async (info: ManageDetailsFormSchema) => {
+    try {
+        const response: ApiResponse<HomeownerResError> = await axios.put(`${config.api.base}homeowner/manage-details`, info)
         console.log(response)
         if (response?.status === 200) {
             return response.data.data

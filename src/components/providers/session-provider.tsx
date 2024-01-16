@@ -4,8 +4,8 @@ import { HomeownerRes } from '../../types';
 import { LOGIN_USER } from '../../utils/server/auth';
 import config from '../../config';
 import axios from 'axios';
-import { REGISTER_USER, VerifyCodeInput, SEND_VERIFICATION_CODE, VERIFY_HOMEOWNER_EMAIL, COMPLETE_PROFILE } from '../../utils/server/homeowner';
-import { CompleteProfileFormSchema } from '../../forms/schema';
+import { REGISTER_USER, VerifyCodeInput, SEND_VERIFICATION_CODE, VERIFY_HOMEOWNER_EMAIL, COMPLETE_PROFILE, MANAGE_DETAILS } from '../../utils/server/homeowner';
+import { CompleteProfileFormSchema, ManageDetailsFormSchema } from '../../forms/schema';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export type ForgotStoreType = {
@@ -36,7 +36,7 @@ interface AuthProps {
     signOut: () => Promise<void | null>;
     verify: (info: VerifyCodeInput) => Promise<HomeownerResError | PromiseError | null>;
     completeProfile: (info: CompleteProfileFormSchema) => Promise<HomeownerRes | PromiseError | null>
-    // session?: string | null;
+    manageDetails: (info: ManageDetailsFormSchema) => Promise<HomeownerRes | PromiseError | null>
     forgotStore?: string | null
     isLoading: boolean;
     user: HomeownerRes | null
@@ -48,7 +48,7 @@ const AuthContext = React.createContext<AuthProps>({
     register: async () => null,
     verify: async () => null,
     completeProfile: async () => null,
-    // session: null,
+    manageDetails: async () => null,
     isLoading: false,
     forgotStore: null,
     user: null,
@@ -155,6 +155,24 @@ export function SessionProvider(props: React.PropsWithChildren) {
         }
     }
 
+    const onManageDetails = async (info: ManageDetailsFormSchema) => {
+        try {
+            const result = await MANAGE_DETAILS(info)
+
+
+            await AsyncStorage.setItem("user", JSON.stringify(result))
+
+            setUser(result)
+            // setSession(JSON.stringify(result))
+
+            axios.defaults.headers.common["Authorization"] = `Bearer ${result.token}`
+
+            return result
+        } catch (error) {
+            return { error: true, message: (error as any).response?.data?.message as string }
+        }
+    }
+
     const onLogin = async (email: string, password: string) => {
         console.log(email, password)
         try {
@@ -204,6 +222,7 @@ export function SessionProvider(props: React.PropsWithChildren) {
         signOut: onLogout,
         verify: onVerify,
         completeProfile: onCompleteProfile,
+        manageDetails: onManageDetails
     }
 
     return (

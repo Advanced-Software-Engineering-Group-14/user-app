@@ -13,7 +13,7 @@ export const GET_USER_BINS = async () => {
 
         const response: ApiResponse<BinRes[]> = await axios.get(`${config.api.base}bin/user`)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
@@ -35,7 +35,7 @@ export const FILL_ALL_BINS = async () => {
 
         const response: ApiResponse<BinRes[]> = await axios.patch(`${config.api.base}bin/fill`)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
@@ -57,7 +57,7 @@ export const FILL_SINGLE_BIN = async (id: string) => {
 
         const response: ApiResponse<BinRes> = await axios.patch(`${config.api.base}bin/fill/${id}`)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
@@ -80,7 +80,7 @@ export const EMPTY_ALL_BINS = async () => {
 
         const response: ApiResponse<BinRes[]> = await axios.patch(`${config.api.base}bin/empty`)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
@@ -102,7 +102,7 @@ export const EMPTY_SINGLE_BIN = async (id: string) => {
 
         const response: ApiResponse<BinRes[]> = await axios.patch(`${config.api.base}bin/empty/${id}`)
         
-        console.log("register-status", response)
+        // console.log("register-status", response)
 
         if (response.status === 200 || response.status === 201) {
             return response.data.data
