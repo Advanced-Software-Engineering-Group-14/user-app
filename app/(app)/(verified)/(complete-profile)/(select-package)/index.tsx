@@ -8,6 +8,7 @@ import { useNavigation } from 'expo-router';
 import NavigationLayout from '../../../../../src/layout/navigation-layout';
 import ActionLink from '../../../../../src/components/ui/action-link';
 import MostRecentPickup from '../../../../../src/components/data-fetch/most-recent-pickup';
+import MostRecentPayment from '../../../../../src/components/data-fetch/most-recent-payment';
 
 const HomeScreen = () => {
   const { signOut, user } = useSession()
@@ -39,6 +40,8 @@ const HomeScreen = () => {
             <View style={styles.section}>
               <Subheading text="Most Recent Pickup" />
               <MostRecentPickup />
+              <Subheading text="Most Recent Payment" />
+              <MostRecentPayment />
             </View>
 
           </View>

@@ -254,7 +254,6 @@ export default function ManageDetailsForm() {
 
 
                     </FormProvider>
-                    <Button variant='outline' full type='button' action={signOut} label='Logout' />
                 </View>
             </ScrollView>
         </SafeAreaView>

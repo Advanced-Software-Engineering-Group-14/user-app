@@ -13,6 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CREATE_PICKUP } from '../../../../../../src/utils/server/pickup';
 import _ from 'lodash';
 import { PickupRes } from '../../../../../../src/types';
+import { COLORS } from '../../../../../../src/styles/colors';
 
 const NewScheduleScreen = () => {
   const { signOut, user } = useSession()
@@ -71,6 +72,7 @@ const NewScheduleScreen = () => {
             mode="date"
             value={value}
             onValueChange={(date: any) => setValue(date)}
+            selectedItemColor={COLORS.primary}
           />
 
         </View>

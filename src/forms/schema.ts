@@ -73,8 +73,18 @@ export const manageDetailsFormSchema = z.object({
     idNo: z.string().min(3, "Minimum 3 characters"),
 })
 
+export const changePasswordFormSchema = z.object({
+    oldPassword: z.string().min(2),
+    newPassword: z.string().min(2),
+    cnewPassword: z.string().min(2),
+}).refine((data) => data.newPassword === data.cnewPassword, {
+    message: "Passwords don't match",
+    path: ["cnewPassword"],
+})
+
 export type LoginFormSchema = z.infer<typeof loginFormSchema>
 export type RegisterFormSchema = z.infer<typeof registerFormSchema>
 export type VerifyEmailFormSchema = z.infer<typeof verifyEmailFormSchema>
 export type CompleteProfileFormSchema = z.infer<typeof completeProfileFormSchema>
 export type ManageDetailsFormSchema = z.infer<typeof manageDetailsFormSchema>
+export type ChangePasswordFormSchema = z.infer<typeof changePasswordFormSchema>

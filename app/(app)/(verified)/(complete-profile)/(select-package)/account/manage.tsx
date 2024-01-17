@@ -4,7 +4,7 @@ import ManageDetailsForm from "../../../../../../src/forms/manage-details-form";
 import NavigationLayout from "../../../../../../src/layout/navigation-layout";
 
 
-export default function CompleteProfile() {
+export default function ManageDetailsScreen() {
     return (
 
         <NavigationLayout>

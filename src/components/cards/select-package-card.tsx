@@ -54,8 +54,6 @@ export default function SelectPackageCard({ item }: Props) {
 
 
     async function createPaymentRecord(res: SuccessResponse) {
-      
-
         const info: CreateBinPaymentInput = {
             paymentMethod: "mobile_money",
             binPackage: _id,

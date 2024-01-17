@@ -2,7 +2,7 @@ import axios from "axios";
 import { ApiResponse, HomeownerRes } from "../../types";
 import Axios from "../axios"
 import config from "../../config";
-import { CompleteProfileFormSchema, ManageDetailsFormSchema } from "../../forms/schema";
+import { CompleteProfileFormSchema, ManageDetailsFormSchema, ChangePasswordFormSchema } from "../../forms/schema";
 import { HomeownerResError } from "../../components/providers/session-provider";
 
 type RegisterInput = {
@@ -108,6 +108,23 @@ export const COMPLETE_PROFILE = async (info: CompleteProfileFormSchema) => {
 export const MANAGE_DETAILS = async (info: ManageDetailsFormSchema) => {
     try {
         const response: ApiResponse<HomeownerResError> = await axios.put(`${config.api.base}homeowner/manage-details`, info)
+        console.log(response)
+        if (response?.status === 200) {
+            return response.data.data
+        } else {
+            throw new Error("oops")
+        } 
+    } catch (error) {
+        console.log(error)
+        throw error
+
+    }
+}
+
+
+export const CHANGE_PASSWORD = async (info: ChangePasswordFormSchema) => {
+    try {
+        const response: ApiResponse<HomeownerResError> = await axios.post(`${config.api.base}homeowner/change-password`, info)
         console.log(response)
         if (response?.status === 200) {
             return response.data.data
